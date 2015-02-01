@@ -4,34 +4,50 @@
 #define LED_PIN 13
 #define BLINK_DELAY 75
 
-serLCD lcd(LCD_PIN);
+/*serLCD lcd(LCD_PIN);*/
 
 void setup() {
-  delay(500);
+  delay(2000);
 
-  Serial.begin(19200);
-  lcd.clear();
-  lcd.print("  MediBot 5000");
+  Serial.begin(9600);
+  Serial.println("hello world");
 
   for (int i = 0; i < 4; i++) {
     blink();
   }
 
-  lcd.setCursor(2,1);
+  delay(1000);
+
 }
 
-String vfo = "";
+String str = "";
 char character;
 
 void loop() {
-  Serial.print("fa;");
-  delay(250);
+  ledOn();
 
+  delay(1000);
+  Serial.print("fa;");
+
+  // wait for FA00000000000;
   while (Serial.available() > 0) {
     character = Serial.read();
-    lcd.listen();
-    lcd.print(character);
-    lcd.print(':');
+
+    if (character != ';') {
+      str += character;
+    } else {
+      ledOff();
+
+      Serial.println();
+      Serial.println("------------");
+      Serial.println(str);
+      Serial.println("------------");
+
+      str = "";
+
+      delay(1000);
+      break;
+    }
   }
 
 }
