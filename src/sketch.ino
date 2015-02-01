@@ -1,10 +1,10 @@
 #include "serLCD.h"
 
-#define LCD_PIN 2
+#define LCD_PIN 5
 #define LED_PIN 13
 #define BLINK_DELAY 75
 
-/*serLCD lcd(LCD_PIN);*/
+serLCD lcd(LCD_PIN);
 
 void setup() {
   delay(2000);
