@@ -17,16 +17,13 @@ void setup() {
   }
 
   delay(1000);
-
 }
 
 String str = "";
 char character;
 
 void loop() {
-  ledOn();
-
-  delay(1000);
+  ledOff();
   Serial.print("fa;");
 
   // wait for FA00000000000;
@@ -36,20 +33,21 @@ void loop() {
     if (character != ';') {
       str += character;
     } else {
-      ledOff();
+      ledOn();
 
-      Serial.println();
-      Serial.println("------------");
-      Serial.println(str);
-      Serial.println("------------");
-
+      displayFrequency(str);
       str = "";
-
-      delay(1000);
-      break;
     }
   }
 
+  delay(1000);
+}
+
+void displayFrequency(String msg) {
+  Serial.println();
+  Serial.println("------------");
+  Serial.println(msg);
+  Serial.println("------------");
 }
 
 void ledOn() {
