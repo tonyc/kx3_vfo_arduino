@@ -1,17 +1,19 @@
-#include "serLCD.h"
+#include <LiquidCrystal.h>
 
-#define LCD_PIN 5
 #define LED_PIN 13
 #define BLINK_DELAY 75
 #define BAUD_RATE 9600
 
 #define LOOP_DELAY 50
 
-serLCD lcd(LCD_PIN);
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 void setup() {
   delay(250);
+
+  lcd.begin(16, 2);
   Serial.begin(BAUD_RATE);
+
   /*displayBanner();*/
 }
 
@@ -50,7 +52,7 @@ void displayBanner() {
 }
 
 void displayFrequency(String msg) {
-  lcd.setCursor(2, 7);
+  lcd.setCursor(6, 2);
   lcd.print(formatFrequency(msg));
 }
 
