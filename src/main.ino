@@ -12,6 +12,7 @@ void setup() {
   delay(250);
 
   lcd.begin(16, 2);
+  lcd.autoscroll();
   Serial.begin(BAUD_RATE);
 
   /*displayBanner();*/
@@ -22,7 +23,24 @@ char character;
 
 void loop() {
   ledOff();
-  Serial.write("FA;");
+
+  //Serial.write("FA;");
+
+  //// wait for FA00000000000;
+  //while (Serial.available() > 0) {
+  //  character = Serial.read();
+
+  //  if (character != ';') {
+  //    str += character;
+  //  } else {
+  //    ledOn();
+
+  //    displayFrequency(str);
+  //    str = "";
+  //  }
+  //}
+
+  Serial.write("TB;");
 
   // wait for FA00000000000;
   while (Serial.available() > 0) {
@@ -33,7 +51,7 @@ void loop() {
     } else {
       ledOn();
 
-      displayFrequency(str);
+      displayDecodeBuffer(str);
       str = "";
     }
   }
@@ -52,8 +70,20 @@ void displayBanner() {
 }
 
 void displayFrequency(String msg) {
-  lcd.setCursor(6, 2);
+  lcd.setCursor(6, 1);
   lcd.print(formatFrequency(msg));
+}
+
+void displayDecodeBuffer(String msg) {
+  //lcd.setCursor(16, 2);
+
+  // TB000s;
+  int messageLength = msg.substring(3, 5).toInt();
+
+  if (messageLength > 0) {
+    lcd.print(msg.substring(5, messageLength + 5));
+  }
+
 }
 
 String formatFrequency(String vfo) {
