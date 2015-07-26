@@ -1,21 +1,20 @@
-#include <LiquidCrystal.h>
+#include "serLCD.h"
 
 #define LED_PIN 13
+#define LCD_PIN 8
 #define BLINK_DELAY 75
 #define BAUD_RATE 9600
 
 #define LOOP_DELAY 50
 
-LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+//LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+serLCD lcd(LCD_PIN);
 
 void setup() {
   delay(250);
 
-  lcd.begin(16, 2);
-  lcd.autoscroll();
   Serial.begin(BAUD_RATE);
 
-  /*displayBanner();*/
 }
 
 String str = "";
@@ -34,6 +33,7 @@ void loop() {
   //    str += character;
   //  } else {
   //    ledOn();
+
 
   //    displayFrequency(str);
   //    str = "";
@@ -70,7 +70,7 @@ void displayBanner() {
 }
 
 void displayFrequency(String msg) {
-  lcd.setCursor(6, 1);
+  lcd.setCursor(2,7);
   lcd.print(formatFrequency(msg));
 }
 
@@ -79,9 +79,10 @@ void displayDecodeBuffer(String msg) {
 
   // TB000s;
   int messageLength = msg.substring(3, 5).toInt();
+  String fullMessage = msg.substring(5, messageLength + 5);
 
   if (messageLength > 0) {
-    lcd.print(msg.substring(5, messageLength + 5));
+    lcd.print(fullMessage);
   }
 
 }
